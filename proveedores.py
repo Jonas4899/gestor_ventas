@@ -2,7 +2,7 @@ def menu_proveedores():
     print("\n", "*" * 10)
     print("\nMENU PROVEEDORES\n")
     print("1. Ingresar artículo")
-    print("2. Consultar artículo")
+    print("2. Consultar artículo") 
     print("3. Modificar artículo")
     print("4. Eliminar artículo")
     print("5. Regresar")
