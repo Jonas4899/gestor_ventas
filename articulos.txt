@@ -1,1 +1,4 @@
-1-Agua-200012-Celular-1000000
+1-Baraja de cartas-60000-40
+2-Xiaomi redmi note 11-750000-15
+3-Mousepads-60000-200
+9-Mouse Razer anaconda-100000-0
