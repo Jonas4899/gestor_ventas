@@ -2,7 +2,7 @@ def menu_proveedores():
     print("\n", "*" * 10)
     print("\nMENU PROVEEDORES\n")
     print("1. Ingresar artículo")
-    print("2. Consultar artículo") 
+    print("2. Consultar artículo")
     print("3. Modificar artículo")
     print("4. Eliminar artículo")
     print("5. Regresar")
@@ -33,12 +33,36 @@ def ingresar_articulo(codigo, nombre, precio):
 
 
 def consultar_articulo():
-    print("Consultar artículo")
+    codigo = int(input("Ingresa el codigo: "))
+    with open("articulos.txt", "r") as archivo:
+        pass
+    print("Artículo no encontrado")
 
 
 def modificar_articulo():
-    print("Modificar artículo")
+    codigo = int(input("Ingresa el codigo: "))
+    nombre = input("Ingresa el nuevo nombre del producto: ")
+    precio = int(input("Ingresa el nuevo precio: "))
+
+    lines = []
+    with open("articulos.txt", "r") as archivo:
+        lines = archivo.readlines()
+
+    with open("articulos.txt", "w") as archivo:
+        for linea in lines:
+            datos = linea.strip().split("-")
+            if datos[0] == str(codigo):
+                archivo.write(f"{codigo}-{nombre}-{precio}\n")
 
 
 def eliminar_articulo():
-    print("Eliminar artículo")
+    codigo = int(input("Ingresa el codigo: "))
+    lines = []
+    with open("articulos.txt", "r") as archivo:
+        lines = archivo.readlines()
+
+    with open("articulos.txt", "w") as archivo:
+        for linea in lines:
+            datos = linea.strip().split("-")
+            if datos[0] != str(codigo):
+                archivo.write(linea)

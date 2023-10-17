@@ -1,24 +1,31 @@
+from utilidades import *
+
+ARCHIVO = "clientes.txt"
+
+
 def menu_clientes():
-    print("\n", "*" * 10)
+    print(f"\n{" - " * 30}\n")
     print("\nM E N U C L I E N T E S\n")
     print("1. Ingresar cliente")
-    print("2. Consultar cliente") 
+    print("2. Consultar cliente")
     print("3. Modificar cliente")
     print("4. Eliminar cliente")
     print("5. Regresar")
     opcion = int(input("Ingrese una opción: "))
+    print(f"\n{" - " * 10}\n")
     if opcion < 1 or opcion > 5:
         print("Opción no válida")
         menu_clientes()
     elif opcion == 1:
         id_cliente = int(input("\nIngrese el ID del cliente: "))
-        nombre = input("Ingrese el nombre del cliente: ")
-        direccion = input("Ingrese la dirección del cliente: ")
-        telefono = input("Ingrese el teléfono del cliente: ")
-        ingresar_cliente(id_cliente, nombre, direccion, telefono)
+        ingresar_cliente(id_cliente)
         menu_clientes()
     elif opcion == 2:
-        consultar_cliente()
+        general = input("Desea ver la lista de todos los clientes? (s/n): ")
+        if general == "s":
+            consulta_general_clientes()
+        else:
+            consultar_cliente()
         menu_clientes()
     elif opcion == 3:
         modificar_cliente()
@@ -28,57 +35,109 @@ def menu_clientes():
         menu_clientes()
 
 
-def ingresar_cliente(id_cliente, nombre, direccion, telefono):
-    with open("clientes.txt", "a") as archivo:
-        archivo.write(f"{id_cliente}-{nombre}-{direccion}-{telefono}\n")
+def ingresar_cliente(id_cliente):
+    clientes_guardados = []
+    try:
+        with open(ARCHIVO, "r") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split("-")
+                clientes_guardados.append(int(datos[0]))
+    except:
+        print("\nCreando archivo de Clientes...\n")
+    finally:
+        with open(ARCHIVO, "a") as archivo:
+            if id_cliente in clientes_guardados:
+                print("\nEl ID del cliente ya existe!")
+            else:
+                nombre = input("Ingrese el nombre del cliente: ")
+                direccion = input("Ingrese la dirección del cliente: ")
+                telefono = input("Ingrese el teléfono del cliente: ")
+                archivo.write(f"{id_cliente}-{nombre}-{direccion}-{telefono}\n")
+
+
+def consulta_general_clientes():
+    if not existencia_archivo(ARCHIVO):
+        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+    else:
+        with open(ARCHIVO, "r") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split("-")
+                print(
+                    f"\n• ID: {datos[0]}\n• Nombre: {datos[1]}\n• Dirección: {datos[2]}\n• Teléfono: {datos[3]}\n"
+                )
 
 
 def consultar_cliente():
-    id_cliente = int(input("Ingrese el ID del cliente: "))  # Solicita al usuario el ID del cliente
-    with open("clientes.txt", "r") as archivo:  # Abre el archivo en modo lectura
-        for linea in archivo:  # Itera a través de cada línea del archivo
-            datos = linea.strip().split('-')  # Divide la línea por '-' para obtener los datos del cliente
-            if datos[0] == str(id_cliente):  # Compara el ID del cliente con el ID ingresado
-                # Imprime los detalles del cliente si el ID coincide
-                print(f"ID: {datos[0]}, Nombre: {datos[1]}, Dirección: {datos[2]}, Teléfono: {datos[3]}")
-                return  # Retorna si se encuentra el cliente
-    print("Cliente no encontrado")  # Imprime un mensaje si no se encuentra el cliente
+    if not existencia_archivo(ARCHIVO):
+        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+    else:
+        id_cliente = int(input("Ingrese el ID del cliente: "))
+        with open(ARCHIVO, "r") as archivo:
+            for linea in archivo:
+                datos = linea.strip().split("-")
+                if datos[0] == str(id_cliente):
+                    print(
+                        f"\n• ID: {datos[0]}\n• Nombre: {datos[1]}\n• Dirección: {datos[2]}\n• Teléfono: {datos[3]}"
+                    )
+                    return
+        print("\nCliente no encontrado :(")
 
 
 def modificar_cliente():
-    id_cliente = int(input("Ingrese el ID del cliente: "))  # Solicita al usuario el ID del cliente
-    nombre = input("Ingrese el nuevo nombre del cliente: ")  # Solicita el nuevo nombre
-    direccion = input("Ingrese la nueva dirección del cliente: ")  # Solicita la nueva dirección
-    telefono = input("Ingrese el nuevo teléfono del cliente: ")  # Solicita el nuevo teléfono
+    if not existencia_archivo(ARCHIVO):
+        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+    else:
+        id_cliente = int(input("Ingrese el ID del cliente: "))
 
-    lines = []
-    with open("clientes.txt", "r") as archivo:  # Abre el archivo en modo lectura
-        lines = archivo.readlines()  # Lee todas las líneas y las almacena en una lista
+        lines = []
+        with open(ARCHIVO, "r") as archivo:
+            lines = archivo.readlines()
 
-    with open("clientes.txt", "w") as archivo:  # Abre el archivo en modo escritura
-        for linea in lines:  # Itera a través de cada línea en la lista
-            datos = linea.strip().split('-')  # Divide la línea por '-' para obtener los datos del cliente
-            if datos[0] == str(id_cliente):  # Compara el ID del cliente con el ID ingresado
-                # Si el ID coincide, escribe los nuevos datos en el archivo
-                archivo.write(f"{id_cliente}-{nombre}-{direccion}-{telefono}\n")
-            else:
-                archivo.write(linea)  # Si el ID no coincide, escribe la línea original
+        print(
+            f"\nPara modificar los datos del cliente, llene solo los campos que desea cambiar y deje los demás vacíos.\n"
+        )
+
+        with open(ARCHIVO, "w") as archivo:
+            for linea in lines:
+                datos = linea.strip().split("-")
+                if datos[0] == str(id_cliente):
+                    nombre = input("Ingrese el nuevo nombre del cliente: ")
+                    if nombre == "":
+                        nombre = datos[1]
+
+                    direccion = input("Ingrese la nueva dirección del cliente: ")
+                    if direccion == "":
+                        direccion = datos[2]
+
+                    telefono = input("Ingrese el nuevo teléfono del cliente: ")
+                    if telefono == "":
+                        telefono = datos[3]
+
+                    archivo.write(f"{id_cliente}-{nombre}-{direccion}-{telefono}\n")
+                else:
+                    archivo.write(linea)
 
 
 def eliminar_cliente():
-    id_cliente = int(input("Ingrese el ID del cliente: "))  # Solicita al usuario el ID del cliente
+    if not existencia_archivo(ARCHIVO):
+        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+    else:
+        id_cliente = int(input("Ingrese el ID del cliente: "))
+        lines = []
 
-    lines = []
-    with open("clientes.txt", "r") as archivo:  # Abre el archivo en modo lectura
-        lines = archivo.readlines()  # Lee todas las líneas y las almacena en una lista
+        with open(ARCHIVO, "r") as archivo:
+            lines = archivo.readlines()
 
-    with open("clientes.txt", "w") as archivo:  # Abre el archivo en modo escritura
-        for linea in lines:  # Itera a través de cada línea en la lista
-            datos = linea.strip().split('-')  # Divide la línea por '-' para obtener los datos del cliente
-            if datos[0] != str(id_cliente):  # Compara el ID del cliente con el ID ingresado
-                archivo.write(linea)  # Si el ID no coincide, escribe la línea original
-
-    print("Cliente eliminado")  # Imprime un mensaje indicando que el cliente fue eliminado
-
-# Llamar a la función del menú para iniciar
-menu_clientes()
+        with open(ARCHIVO, "w") as archivo:
+            for linea in lines:
+                datos = linea.strip().split("-")
+                if datos[0] != str(id_cliente):
+                    archivo.write(linea)
+                else:
+                    opcion = input(
+                        f"Seguro que desea eliminar al cliente {datos[1]}? (s/n): "
+                    )
+                    if opcion == "s":
+                        print("Cliente eliminado!")
+                    else:
+                        archivo.write(linea)

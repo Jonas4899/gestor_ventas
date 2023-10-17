@@ -1,8 +1,9 @@
 from proveedores import menu_proveedores
+from clientes import menu_clientes
 
 
 def menu_principal():
-    print("\n---------------------------\n")
+    print(f"\n{" - " * 30}\n")
     print("MENU PRINCIPAL\n")
     print("1. Clientes")
     print("2. Proveedores")
@@ -14,7 +15,9 @@ def menu_principal():
         print("Opción no válida")
         menu_principal()
     elif opcion == 1:
-        pass
+        menu_clientes()
+        print("Hola")
+        menu_principal()
     elif opcion == 2:
         menu_proveedores()
         menu_principal()
