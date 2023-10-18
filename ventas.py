@@ -1,5 +1,5 @@
-from traceback import print_tb
 from utilidades import existencia_archivo
+from utilidades import alerta_stock_minimo
 
 CLIENTES = "clientes.txt"
 ARTICULOS = "articulos.txt"
@@ -34,7 +34,7 @@ def menu_ventas():
         print("\neliminar venta")
     elif(opcion==6):
         pass
-    
+
 def registrar_venta():
     
     id_cliente = int(input("Digite el ID del cliente: ")) 
@@ -43,11 +43,11 @@ def registrar_venta():
         print("El archivo de Clientes aun no existe! Registre un cliente primero.")
     else:
         cliente_registrado = False
-        with open(CLIENTES,"r") as archivo:
-            for linea in archivo:
-                datos = linea.strip().split("-")
+        with open(CLIENTES,"r") as archivo_clientes:
+            for linea in archivo_clientes:
+                datos_cliente = linea.strip().split("-")
                 
-                if datos[0] == str(id_cliente):
+                if datos_cliente[0] == str(id_cliente):
                     print("Cliente registrado")
                     cliente_registrado = True
                     
@@ -58,16 +58,42 @@ def registrar_venta():
                     
                     else:
                         producto_registrado = False
-                        with open(ARTICULOS,"r") as archivo:
-                            for linea in archivo:
-                                datos = linea.strip().split("-")
+                        with open(ARTICULOS,"r") as archivo_articulos:
+                            for linea in archivo_articulos:
+                                datos_articulos = linea.strip().split("-")
                                 
-                                if datos[0] == str(id_producto):
+                                if datos_articulos[0] == str(id_producto):
                                     print("Producto registrado")
                                     producto_registrado = True
                                     
+                                    stock = int(datos_articulos[3])
+                                    print(f"stock: {stock}")
+                                    
                                     cantidad = int(input("Digite la cantidad del producto"))
+                                    
+                                    if cantidad < 1:
+                                        print("Cantidad invalida")
+                                    elif cantidad > stock: 
+                                        print("No hay stock suficiente para la cantidad ingresada")
+                                    else:
+                                        precio_unit = int(datos_articulos[2])
+                                        total = cantidad * precio_unit
                                         
+                                        with open('ventas.txt','w') as archivo_ventas:
+                                            archivo_ventas.write(f"{id_cliente}-{id_producto}-{cantidad}-{precio_unit}-{total}")
+                                        
+                                        stock -= cantidad
+                                        
+                                        with open(ARTICULOS,"r") as archivo:
+                                            lineas = archivo.readlines()
+                                            
+                                        with open(ARTICULOS,"w") as archivo:
+                                            for linea in lineas:
+                                                datos = linea.strip().split("-")
+                                                if datos[0] == str(id_producto):
+                                                    datos[3] = str(stock)
+                                                    archivo.write(f"{datos[0]}-{datos[1]}-{datos[2]}-{datos[3]}")
+                                         
                                     break
                                     
                             if not producto_registrado:
@@ -78,9 +104,7 @@ def registrar_venta():
             if not cliente_registrado:
                 print("Cliente NO registrado")
                     
-                         
-
-menu_ventas() #ELIMINAR ESTO AL TERMINAR
+alerta_stock_minimo()
 
 
     

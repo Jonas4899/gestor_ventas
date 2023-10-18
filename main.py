@@ -27,10 +27,9 @@ def menu_principal():
         menu_inventarios()
         menu_principal()
     elif opcion == 4:
-        
+        menu_ventas()
         menu_principal()
     elif opcion == 5:
         exit()
-
 
 menu_principal()
