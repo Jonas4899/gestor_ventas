@@ -215,21 +215,6 @@ def modificar_articulo():
                     archivo.write(f"{codigo_producto}-{nombre}-{precio}-{stock}\n")
                 else:
                     archivo.write(linea)
-    """
-    codigo = int(input("Ingresa el codigo: "))
-    nombre = input("Ingresa el nuevo nombre del producto: ")
-    precio = int(input("Ingresa el nuevo precio: "))
-
-    lines = []
-    with open("articulos.txt", "r") as archivo:
-        lines = archivo.readlines()
-
-    with open("articulos.txt", "w") as archivo:
-        for linea in lines:
-            datos = linea.strip().split("-")
-            if datos[0] == str(codigo):
-                archivo.write(f"{codigo}-{nombre}-{precio}\n")
-    """
 
 
 def eliminar_articulo():
