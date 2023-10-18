@@ -32,5 +32,4 @@ def menu_principal():
     elif opcion == 5:
         exit()
 
-
 menu_principal()
