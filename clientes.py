@@ -121,7 +121,7 @@ def eliminar_cliente():
     if not existencia_archivo(ARCHIVO):
         print("El archivo de Clientes aun no existe! Registre un cliente primero.")
     else:
-        id_cliente = int(input("Ingrese el ID del cliente: "))
+        id_cliente = int(input("\nIngrese el ID del cliente: "))
         lines = []
 
         with open(ARCHIVO, "r") as archivo:

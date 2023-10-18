@@ -106,7 +106,7 @@ def consulta_general_articulos():
 
 def obtener_articulos_guardados():
     if not existencia_archivo(ARCHIVO):
-        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
         return []
     else:
         lista_articulos = []
@@ -122,7 +122,7 @@ def obtener_articulos_guardados():
 
 def consulta_articulo_codigo():
     if not existencia_archivo(ARCHIVO):
-        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
     else:
         lista_articulos = obtener_articulos_guardados()
         codigo = input("\nIngrese el Codigo del articulo: ")
@@ -139,7 +139,7 @@ def consulta_articulo_codigo():
 
 def consulta_articulo_rango():
     if not existencia_archivo(ARCHIVO):
-        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
     else:
         lista_articulos = obtener_articulos_guardados()
         min = int(input("\nIngrese el precio minimo del rango: "))
@@ -154,7 +154,7 @@ def consulta_articulo_rango():
 
 def consulta_articulo_stock():
     if not existencia_archivo(ARCHIVO):
-        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
     else:
         lista_articulos = obtener_articulos_guardados()
         opcion = int(
@@ -187,7 +187,7 @@ def consulta_articulo_stock():
 
 def modificar_articulo():
     if not existencia_archivo(ARCHIVO):
-        print("El archivo de Clientes aun no existe! Registre un cliente primero.")
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
     else:
         codigo_producto = int(input("Ingrese el codigo del producto: "))
 
@@ -218,13 +218,25 @@ def modificar_articulo():
 
 
 def eliminar_articulo():
-    codigo = int(input("Ingresa el codigo: "))
-    lines = []
-    with open("articulos.txt", "r") as archivo:
-        lines = archivo.readlines()
+    if not existencia_archivo(ARCHIVO):
+        print("El archivo de Articulos aun no existe! Registre un articulo primero.")
+    else:
+        codigo = int(input("\nIngresa el codigo: "))
+        lines = []
 
-    with open("articulos.txt", "w") as archivo:
-        for linea in lines:
-            datos = linea.strip().split("-")
-            if datos[0] != str(codigo):
-                archivo.write(linea)
+        with open(ARCHIVO, "r") as archivo:
+            lines = archivo.readlines()
+
+        with open(ARCHIVO, "w") as archivo:
+            for linea in lines:
+                datos = linea.strip().split("-")
+                if datos[0] != str(codigo):
+                    archivo.write(linea)
+                else:
+                    opcion = input(
+                        f"Seguro que desea eliminar el articulo {datos[1]}? (s/n): "
+                    )
+                    if opcion == "s":
+                        print("Articulo eliminado!")
+                    else:
+                        archivo.write(linea)
