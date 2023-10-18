@@ -157,6 +157,16 @@ def registrar_venta():
                                             )
                                         )
 
+                                        # Validar que haya stock suficiente
+                                        stock = int(datos_producto[3])
+                                        if cantidad < 1:
+                                            print("Cantidad invalida")
+                                        elif cantidad > stock:
+                                            print(
+                                                "\nNo hay stock suficiente para la cantidad ingresada"
+                                            )
+                                            return
+
                                         # Registrar venta
                                         precio_unit = int(datos_producto[2])
                                         total = cantidad * precio_unit
@@ -174,7 +184,6 @@ def registrar_venta():
                                             )
 
                                         # Actualizar stock y archivo de articulos
-                                        stock = int(datos_producto[3])
                                         stock -= cantidad
 
                                         print("Venta registrada")
