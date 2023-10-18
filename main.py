@@ -1,6 +1,8 @@
 from proveedores import menu_proveedores
 from clientes import menu_clientes
 from ventas import menu_ventas
+from inventario import menu_inventarios
+
 
 def menu_principal():
     print(f"\n{" - " * 30}\n")
@@ -22,11 +24,13 @@ def menu_principal():
         menu_proveedores()
         menu_principal()
     elif opcion == 3:
-        pass
+        menu_inventarios()
+        menu_principal()
     elif opcion == 4:
         
         menu_principal()
     elif opcion == 5:
         exit()
-        
+
+
 menu_principal()

@@ -92,14 +92,13 @@ def modificar_cliente():
         with open(ARCHIVO, "r") as archivo:
             lines = archivo.readlines()
 
-        print(
-            f"\nPara modificar los datos del cliente, llene solo los campos que desea cambiar y deje los demás vacíos.\n"
-        )
-
         with open(ARCHIVO, "w") as archivo:
             for linea in lines:
                 datos = linea.strip().split("-")
                 if datos[0] == str(id_cliente):
+                    print(
+                        f"\nPara modificar los datos del cliente, llene solo los campos que desea cambiar y deje los demás vacíos.\n"
+                    )
                     nombre = input("Ingrese el nuevo nombre del cliente: ")
                     if nombre == "":
                         nombre = datos[1]
@@ -121,7 +120,7 @@ def eliminar_cliente():
     if not existencia_archivo(ARCHIVO):
         print("El archivo de Clientes aun no existe! Registre un cliente primero.")
     else:
-        id_cliente = int(input("Ingrese el ID del cliente: "))
+        id_cliente = int(input("\nIngrese el ID del cliente: "))
         lines = []
 
         with open(ARCHIVO, "r") as archivo:
