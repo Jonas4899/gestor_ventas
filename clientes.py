@@ -2,7 +2,6 @@ from utilidades import *
 
 ARCHIVO = "clientes.txt"
 
-
 def menu_clientes():
     print(f"\n{" - " * 30}\n")
     print("\nM E N U C L I E N T E S\n")

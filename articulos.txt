@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 2-Xiaomi redmi note 11-750000-35
 3-Mousepads-60000-200
 9-Mouse Razer anaconda-100000-20
 45-Silla de escritorio-450000-10
+=======
+1-reloj cassio-250000-6
+2-teclado mecanico-100000-12
+3-PC portatil-1000000-5
+>>>>>>> main
