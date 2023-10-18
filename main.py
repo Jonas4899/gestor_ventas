@@ -24,7 +24,7 @@ def menu_principal():
     elif opcion == 3:
         pass
     elif opcion == 4:
-        menu_ventas()
+        
         menu_principal()
     elif opcion == 5:
         exit()
